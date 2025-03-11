@@ -36,6 +36,8 @@ __pycache__/
 # Spyder settings
 .spyproject
 
+.log
+
 # /tests/
 /tests/build*
 /tests/dist*

@@ -234,7 +234,7 @@ class RanobeParser:
                 selector = "0"
             else:
                 for i in range(len(self.chapters_url)):
-                    if self.last_saved_chapter_name in self.chapters_url[i].text:
+                    if self.last_saved_chapter_name in self.chapters_url[i].text.strip().capitalize():
                         selector = f"1-{i}"
                         break
 
