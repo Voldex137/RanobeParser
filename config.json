@@ -1,0 +1,19 @@
+{
+    "mode": "fb2",
+    "file_name": "supreme_magus.fb2",
+    "max_chapers_on_desc": 50, 
+    "ranobe_url": "https://jaomix.ru/verhovnyj-mag/",
+    "cookies": {
+        "_ga": "GA1.1.453943953.1740239433",
+        "_ga_C7J1M8PT9N": "GS1.1.1741115612.3.1.1741116516.0.0.0",
+        "_ym_d": "1740239433",
+        "_ym_isad": "2",
+        "_ym_uid": "1740239433861123653",
+        "wordpress_logged_in_35981584ee49ee4e18131611545f1192": "Voldex-o|1741449166|OdJG1dfCfOzljqoL5ZjwmcdzKVduEjoVYNW4bWtgY9y|377b88a64b5e11d0f693f03b9531f461f349dd3e79d175851ca05035289c728e",
+        "wpdiscuz_nonce_35981584ee49ee4e18131611545f1192": "ce702f881e"
+    },
+    "proxies": {
+        "https": "socks5://198.100.154.198:6001",
+        "http": "socks5://198.100.154.198:6001"
+    }
+}
