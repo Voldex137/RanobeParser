@@ -37,6 +37,8 @@ class RanobeParser:
         self.sleep_time = sleep_time
         self.cookies = cookies
 
+        self.is_worked = True
+
         if not os.path.exists("out"):
             os.makedirs("out")
 
@@ -182,17 +184,23 @@ class RanobeParser:
     
     def parse_chapters(self, start, end):
         global mode
+        self.is_worked = True
         result = ""
         if end == 0:
             end = len(self.chapters_url)
         for i in range(end-1, start-1, -1):
-            chapter_href = self.chapters_url[i].find("a").get("href")
-            self.chaptersOut.print_parse_chapter_info(chapter_href, f"{i+1}. {self.chapters_url[i].text}")
-            logging.info(f"Парсинг главы {i+1}")
-            logging.info(f"Ссылка на главу: {chapter_href}")
-            result = self.parse_chapter(self.chapters_url[i].find("a").get("href"))
-            self.save(self.file_name, result)
-            time.sleep(self.sleep_time)
+            if not self.is_worked:
+                print("Canceled")
+                logging.info("Parsing canceled")
+                return
+            else:
+                chapter_href = self.chapters_url[i].find("a").get("href")
+                self.chaptersOut.print_parse_chapter_info(chapter_href, f"{i+1}. {self.chapters_url[i].text}")
+                logging.info(f"Парсинг главы {i+1}")
+                logging.info(f"Ссылка на главу: {chapter_href}")
+                result = self.parse_chapter(self.chapters_url[i].find("a").get("href"))
+                self.save(self.file_name, result)
+                time.sleep(self.sleep_time)
 
     def parse_chapter(self, chapter_url):
         result = ""

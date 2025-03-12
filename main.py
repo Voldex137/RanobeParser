@@ -97,9 +97,9 @@ def main(page: ft.Page):
     thread = None
     
     def close_parsing_window(e):
+        ranobeParser.is_worked = False
         page.close(parsing_window)
         page.update()
-
     parsing_window = None
 
     fletChaptersOut = FletChaptersOut(text_box=parsing_window)
@@ -132,6 +132,7 @@ def main(page: ft.Page):
         page.open(parsing_window)
         ranobeParser.update_last_saved_chapter()
         thread = threading.Thread(target=ranobeParser.select_chapters, args=(selector_field.value,))
+        thread.setDaemon(True)
         thread.start()
         print("Парсинг глав завершен")
 
