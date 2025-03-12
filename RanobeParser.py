@@ -15,22 +15,37 @@ default_cookies = {
 		"wpdiscuz_nonce_35981584ee49ee4e18131611545f1192": "ce702f881e"
 }
 
+class ConsoleChaptersOut():
+    @classmethod
+    def print_parse_chapter_error(self, chapter_url):
+            print("В процессе получения текста главы произошла ошибка")
+            print(f"Перейдите по ссылке {chapter_url},\nпосле чего нажмите 'ввод' чтобы попробовать получить текст главы ещё раз")
+            input()
+            print("Повторная попытка получить текст главы")
+
+    @classmethod
+    def print_parse_chapter_info(self, chapter_url, chapter_name):
+            print(f"Парсинг главы {chapter_name}")
+            print(f"Ссылка на главу: {chapter_url}")
+
 
 class RanobeParser:
-    def __init__(self, *, file_type="txt", file_name=None, proxies=None, sleep_time=10, cookies=default_cookies):
+    def __init__(self, *, file_type="txt", file_name=None, proxies=None, sleep_time=10, cookies=default_cookies, chaptersOut = ConsoleChaptersOut):
         self.file_type = file_type
         self.file_name = file_name
         self.proxies = proxies
         self.sleep_time = sleep_time
         self.cookies = cookies
 
+        if not os.path.exists("out"):
+            os.makedirs("out")
+
         self.last_saved_chapter_name = self.get_last_saved_chapter()
+        self.chaptersOut = chaptersOut
 
         self.ranobe_name = None
         self.chapters_url = []
 
-        if not os.path.exists("out"):
-            os.makedirs("out")
 
 
 
@@ -60,13 +75,21 @@ class RanobeParser:
         
 
     def get_last_saved_chapter(self):
-        logging.debug("Получение последней сохраненной главы")
-        if self.file_type == "fb2":
-            return self.get_last_saved_chapter_fb2()
-        elif self.file_type == "txt":
-            return self.get_last_saved_chapter_txt()
-        else:
-            logging.error("Unknown file type")
+        try:
+            logging.debug("Получение последней сохраненной главы")
+            if self.file_type == "fb2":
+                return self.get_last_saved_chapter_fb2()
+            elif self.file_type == "txt":
+                return self.get_last_saved_chapter_txt()
+            else:
+                logging.error("Unknown file type")
+        except:
+            return None
+        
+
+    def update_last_saved_chapter(self):
+        logging.debug("Обновление последней сохраненной главы")
+        self.last_saved_chapter_name = self.get_last_saved_chapter()       
 
     
     def get_ranobe_name(self, soup):
@@ -164,8 +187,7 @@ class RanobeParser:
             end = len(self.chapters_url)
         for i in range(end-1, start-1, -1):
             chapter_href = self.chapters_url[i].find("a").get("href")
-            print(f"Парсинг главы {i+1}")
-            print(f"Ссылка на главу: {chapter_href}")
+            self.chaptersOut.print_parse_chapter_info(chapter_href, f"{i+1}. {self.chapters_url[i].text}")
             logging.info(f"Парсинг главы {i+1}")
             logging.info(f"Ссылка на главу: {chapter_href}")
             result = self.parse_chapter(self.chapters_url[i].find("a").get("href"))
@@ -188,11 +210,8 @@ class RanobeParser:
         if len(rows) < 5:
             winsound.Beep(500, 1000)
             logging.error(f"В процессе получения текста главы '{chapter_url}' произошла ошибка")
-            print("В процессе получения текста главы произошла ошибка")
-            print(f"Перейдите по ссылке {chapter_url},\nпосле чего нажмите 'ввод' чтобы попробовать получить текст главы ещё раз")
-            input()
+            self.chaptersOut.print_parse_chapter_error(chapter_url)
             logging.debug("Повторная попытка получить текст главы")
-            print("Повторная попытка получить текст главы")
             return self.parse_chapter(chapter_url)
         
         if self.file_type == "fb2":

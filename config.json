@@ -1,7 +1,7 @@
 {
-    "mode": "fb2",
+    "file_type": "fb2",
     "file_name": "supreme_magus.fb2",
-    "max_chapers_on_desc": 50, 
+    "max_chapters_on_desc": 50,
     "ranobe_url": "https://jaomix.ru/verhovnyj-mag/",
     "cookies": {
         "_ga": "GA1.1.453943953.1740239433",
@@ -13,7 +13,7 @@
         "wpdiscuz_nonce_35981584ee49ee4e18131611545f1192": "ce702f881e"
     },
     "proxies": {
-        "https": "socks5://198.100.154.198:6001",
-        "http": "socks5://198.100.154.198:6001"
+        "http": "socks5://45.140.143.77:18080",
+        "https": "socks5://45.140.143.77:18080"
     }
 }

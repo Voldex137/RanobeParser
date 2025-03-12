@@ -3,3 +3,4 @@ requests
 requests[socks]
 lxml
 logging
+flet
